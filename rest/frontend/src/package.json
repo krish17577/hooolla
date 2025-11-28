@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build:css": "tailwindcss build src/input.css -o dist/output.css"
+  }
+}

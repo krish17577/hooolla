@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Medicine Reminder App</title>
+<link href="dist/output.css" rel="stylesheet" />
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  form {
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  input, select {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 100%;
+  }
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  .taken {
+    background-color: #d4edda;
+  }
+</style>
+</head>
+<body>
+
+<h1>Medicine Reminder & Tracker</h1>
+
+<!-- Form to add a new medicine -->
+<form id="addMedicineForm">
+  <h2>Add Medicine</h2>
+  <input type="text" id="medicineName" placeholder="Medicine Name" required />
+  <input type="text" id="dosage" placeholder="Dosage (e.g., 500mg)" />
+  <input type="text" id="frequency" placeholder="Frequency (e.g., Twice a day)" />
+  <input type="date" id="startDate" placeholder="Start Date" required />
+  <input type="date" id="endDate" placeholder="End Date" />
+  <button type="submit">Add Medicine</button>
+</form>
+
+<!-- Reminders Table -->
+<h2>Reminders</h2>
+<table id="remindersTable">
+  <thead>
+    <tr>
+      <th>Medicine</th>
+      <th>Time</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Reminder entries will go here -->
+  </tbody>
+</table>
+
+<script>
+  // Example JavaScript: you will connect this with your backend/database later
+
+  // Handle adding new medicine
+  document.getElementById('addMedicineForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('medicineName').value;
+    const dosage = document.getElementById('dosage').value;
+    const frequency = document.getElementById('frequency').value;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    // Here, you'd send this data to your backend to save in the database
+    alert('Medicine added: ' + name);
+    // After saving, you can update the reminders list accordingly
+  });
+
+  // Example: Function to load reminders from database and display
+  function loadReminders() {
+    // Fetch reminders from backend/database
+    // For now, let's add a dummy reminder
+    const tbody = document.querySelector('#remindersTable tbody');
+    tbody.innerHTML = ''; // Clear existing
+
+    const dummyReminder = {
+      medicine: 'Paracetamol',
+      time: '08:00',
+      date: '2024-02-01',
+      taken: false
+    };
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${dummyReminder.medicine}</td>
+      <td>${dummyReminder.time}</td>
+      <td>${dummyReminder.date}</td>
+      <td>${dummyReminder.taken ? 'Taken' : 'Pending'}</td>
+      <td><button onclick="markAsTaken(this)">Mark as Taken</button></td>
+    `;
+    if (dummyReminder.taken) {
+      row.classList.add('taken');
+    }
+    tbody.appendChild(row);
+  }
+
+  function markAsTaken(btn) {
+    const row = btn.closest('tr');
+    row.classList.add('taken');
+    row.querySelector('td:nth-child(4)').innerText = 'Taken';
+    // Update database accordingly
+  }
+
+  // Load reminders on page load
+  window.onload = loadReminders;
+</script>
+
+</body>
+</html>
